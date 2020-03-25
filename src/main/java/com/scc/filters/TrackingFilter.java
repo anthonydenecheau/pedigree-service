@@ -1,0 +1,106 @@
+package com.scc.filters;
+
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.Provider;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
+import io.vertx.core.http.HttpServerRequest;
+
+@Provider
+public class TrackingFilter implements ContainerRequestFilter {
+
+    private static final Logger LOG = Logger.getLogger(TrackingFilter.class);
+            
+    @Context
+    UriInfo info;
+
+    @Context
+    HttpServerRequest request;
+
+    @ConfigProperty(name = "access.max.attempt")    
+    int MAX_ATTEMPT;
+    @ConfigProperty(name = "access.recovery.attempt")    
+    int DELAY_ATTEMPT;
+    
+    private boolean ACTIVE_LOCK;
+    private LoadingCache<String, Integer> attemptsCache;
+    
+    @PostConstruct
+    public void init() {
+        ACTIVE_LOCK = (MAX_ATTEMPT == -1 ? false : true);
+        
+        attemptsCache = CacheBuilder.newBuilder().expireAfterWrite(DELAY_ATTEMPT, TimeUnit.MINUTES).build(new CacheLoader<String, Integer>() {
+            @Override
+            public Integer load(final String key) {
+                return 0;
+            }
+        });
+    }
+    
+    @Override
+    public void filter(ContainerRequestContext context) {
+
+        final String method = context.getMethod();
+        final String path = info.getPath();
+        final String address = request.remoteAddress().toString();
+
+        LOG.infof("Processing incoming request %s for %s [%s].", method, path, address);
+        // TODO : mettre en cache les IP pour monitoring (voir blocage).
+        try {
+            LOG.infof("Try n° %s",attemptsCache.get(address));
+            if (isBlocked(address)) 
+                LOG.infof("Error : Too many attempts");
+        } catch (ExecutionException e) {
+            ;
+        }
+        loginFailed(address);
+    }
+    
+    public void loginSucceeded(final String key) {
+        if (!ACTIVE_LOCK)
+            return;
+        
+        attemptsCache.invalidate(key);
+    }
+    
+    public void loginFailed(final String key) {
+
+        if (!ACTIVE_LOCK)
+            return;
+        
+        int attempts = 0;
+        try {
+            attempts = attemptsCache.get(key);
+        } catch (final ExecutionException e) {
+            attempts = 0;
+        }
+        attempts++;
+        attemptsCache.put(key, attempts);
+    }
+
+    public boolean isBlocked(final String key) {
+        
+        if (!ACTIVE_LOCK)
+            return false;
+
+        try {
+            return attemptsCache.get(key) >= MAX_ATTEMPT;
+        } catch (final ExecutionException e) {
+            return false;
+        }
+    }
+}
