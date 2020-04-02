@@ -124,6 +124,7 @@
 								</goals>
 								<configuration>
 									<enableHttpUrlHandler>true</enableHttpUrlHandler>
+									<additionalBuildArgs>-J-Xmx6G</additionalBuildArgs>
 								</configuration>
 							</execution>
 						</executions>
