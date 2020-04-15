@@ -7,21 +7,25 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @Table(name="PG_DATA")
 @NamedQuery(name = "findDog",
     query = "SELECT f.data FROM PgDog f where idDog = :idDog")
-public class PgDog extends JsonbDataType {
-
+@TypeDef(name = "MyJsonType",
+    typeClass = MyJsonType.class,
+    defaultForType = MyJsonType.class)
+public class PgDog extends PanacheEntityBase {
+    
     @Id
     @Column
     public Integer idDog;
     
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column
+    @Type(type = "MyJsonType")
     public Dog data;
-
-
 
 }

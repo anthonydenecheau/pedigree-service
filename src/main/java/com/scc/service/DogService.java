@@ -65,17 +65,19 @@ public class DogService extends AbstractGenericService<Dog> {
              if (_dogs.size()>0 && _dogs != null) {
                  _dog = handleRole(_dogs.get(0));
                  _parents = pgArbreRepository.findParents(_dog.getId());
+                 if (_parents != null)
+                     if (level>0)
+                         findFamilyTree(_dog, _parents.idFather, _parents.idMother, 1);
+             } else {
+                 return null;
              }
-             
-             if (level>0)
-                 findFamilyTree(_dog, _parents.idFather, _parents.idMother, 1);
 
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
             System.out.println("End readDog");
         }
-        return (_dogs.get(0) == null ? null: _dog);
+        return _dog;
     }
 
     /**

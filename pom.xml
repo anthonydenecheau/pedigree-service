@@ -70,13 +70,6 @@
 	        <artifactId>quarkus-jdbc-postgresql</artifactId>
 	    </dependency>
 	
-		<!--  Postgres JSONB -->		
-		<dependency>
-		    <groupId>com.vladmihalcea</groupId>
-		    <artifactId>hibernate-types-52</artifactId>
-		    <version>2.9.5</version>
-		</dependency>
-		
 	</dependencies>
 	<build>
 		<plugins>
@@ -124,6 +117,13 @@
 								</goals>
 								<configuration>
 									<enableHttpUrlHandler>true</enableHttpUrlHandler>
+                    <!--archive>
+                        <manifestEntries>
+                            <Dependencies>
+                                org.hibernate.commons-annotations
+                            </Dependencies>
+                        </manifestEntries>
+                    </archive-->
 								</configuration>
 							</execution>
 						</executions>
@@ -145,7 +145,7 @@
 							</execution>
 						</executions>
 					</plugin>
-				</plugins>
+ 				</plugins>
 			</build>
 		</profile>
 	</profiles>
