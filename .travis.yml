@@ -22,7 +22,7 @@ env:
   - secure: A4s6wuBq5UbAtso3OQa5BweTFnxcVxAnOk9Sl8nTzW1E+8aP1PbkmfVTd8JQBXo3bUYkbCrcijAJFTp1GpAxm+KutfnNtseUnkKN0eD7+kl1uoizYK4Z/BHsfi1u3HheZG78gL25Qb5axnuDZfV1ha3+MhXql0oYNugGGTd7+NB3gt+B0IrLdt43E+x7j/lMbGMMjmpfQVL22w8vg8jKrNxycejKyGiiwJNfOxrH3klzOKL/LGcG9GAv8cwmltvQfYcPxOZg0OOiY5JKxE7SASWuUnKoLiXnkpYWkONYE+avs488ObbI9SqhMBNvuGjOomhxDJkGLtKDTgsp7xyq70VaEkbFVUg0mlYpULOTW2spzjt9yUyS8hkO8BckVUg4GDGF1faDJMKilhHOdXZwjbLpZukMzYLlIN5IdqomgqZGjNvmHr2CclAj2CVMrpP8c5ox1pGpRmtrmBmuB67n9cJ8+1r8Rmw8YHD6JmbrzvPAxyhN4EKoj/yYJocp9JxDJ5HLpKfLD1VNq55Z3wRpHHBZZ3R0sRqcvCZEzbeD7Ezuh9kI//ctVu7JJn1eZVP1JxgYAuD2cMXJoQoXDjXH6T+ma3AD0+EeYiooL9MBS8aUopxIoRJw24aQbXAdlCa0j+ci0/VFmm2X/LFjdKEK14fKy4pP7yfUq7X7Ap9I6RQ=
 before_install:
 - sudo cat /proc/meminfo
-#- echo "MAVEN_OPTS='-Xmx2g -XX:MaxPermSize=512m'" > ~/.mavenrc
+- echo "MAVEN_OPTS='-Xmx6g -XX:MaxPermSize=512m'" > ~/.mavenrc
 - ruby -v
 - gem install travis -v 1.8.9 --no-document
 - export BUILD_NAME=scc-pedigree-service-$TRAVIS_BRANCH-$(date -u "+%Y%m%d%H%M%S")-$TRAVIS_BUILD_NUMBER
