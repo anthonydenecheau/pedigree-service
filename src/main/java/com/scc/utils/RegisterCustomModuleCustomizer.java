@@ -22,9 +22,6 @@ public class RegisterCustomModuleCustomizer implements ObjectMapperCustomizer {
 
     public void customize(ObjectMapper mapper) {
         mapper.setSerializationInclusion(Include.NON_EMPTY);
-//        mapper.setSerializationInclusion(Include.NON_NULL);
-//        mapper.setSerializationInclusion(Include.NON_ABSENT);
-
         mapper.registerModule(new SimpleModule() {
 
             private static final long serialVersionUID = 1L;
@@ -53,8 +50,6 @@ public class RegisterCustomModuleCustomizer implements ObjectMapperCustomizer {
                     }
                     
                 });
-                //context.addBeanSerializerModifier(new DogPropertySerializerModifier());
-
             }
         });
     }

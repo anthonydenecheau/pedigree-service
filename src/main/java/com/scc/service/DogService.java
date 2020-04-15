@@ -44,11 +44,6 @@ public class DogService extends AbstractGenericService<Dog> {
     }
 
     public Dog findDogById(Integer id) throws IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
-        /*if (pgDogRepository.findByIdDog(id) != null)
-            return handleRole(pgDogRepository.findByIdDog(id));
-        else
-            return null;
-        */
         return null;
     }
 
