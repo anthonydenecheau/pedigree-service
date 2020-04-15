@@ -33,7 +33,7 @@ jobs:
     env: GCP_ENV=re7
     script:
     - sh scripts/travis/tag_build.sh
-    - travis_wait 30 && sh scripts/travis/build_services.sh
+    - travis_wait 30 sh scripts/travis/build_services.sh
     - sh scripts/travis/deploy_to_docker_hub.sh
 stages:
 - name: build and publish to Docker Hub
