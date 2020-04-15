@@ -27,7 +27,6 @@ before_install:
 - gem install travis -v 1.8.9 --no-document
 - export BUILD_NAME=scc-pedigree-service-$TRAVIS_BRANCH-$(date -u "+%Y%m%d%H%M%S")-$TRAVIS_BUILD_NUMBER
 - chmod +x mvnw
-install: travis_wait 30 mvn install
 jobs:
   include:
   - stage: build and publish to Docker Hub
