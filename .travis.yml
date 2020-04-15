@@ -8,11 +8,6 @@ dist: trusty
 #sudo: required
 services:
 - docker
-#matrix:
-#  include:
-  # GraalVM
-#    - env: JDK='GraalVM 19'
-#      install: . ./install-jdk.sh --url "https://github.com/oracle/graal/releases/download/vm-19.2.0/graalvm-ce-linux-amd64-19.2.0.tar.gz"
 notifications:
   slack:
     secure: V0ktPeM+cto4/USxHkIBWPyyZ/ni5v7yPwGFVbalPUvkPmYRgFq5T0p8E/Tp9iW1JXVJ7x7vigytwrxjgChgcI6pU7ba7ud6qpbV1XiPnR7KTDi9UJ6/R4QyZkAyTewprGiPCMNgFm2fpweA/+emII+QfKvLvk1EQ5mnwJa2urbHZpxZUXoT9F1NtGoHxXCwGHS3XzGJeB5wSHj9/N3JhQ1gljgPGVJYqJ64pFidTyNH1I0hCekmODUwXiq+EGtPDd3qitnW+cAyjkTo38t4VMiGfYnnJeHE0DUPw1T5iKxUlJbuMNqbznnbNZ4UA5Yl1V7JRvqBX6IHG/Bz2Oqz0BdeTRujhJsHvTYxrwRjujA3lboe/rCJw+o7I18ObO2U3h7VGoyk93S4b5mgKg7xYxnmiW2LzCDq+XTo2/+SaL+IQD74A4YwQit0Ng4xKCwUveT2hIHkzoTox89plHNtU0f30BAbAz4WsWlvn/WNcuXwjS8It2mmUb0P5DgQnBX+FsCfQDfUl7dDulFZc3yrYsPnfJGkQgLYJ2YvgiUkZSMwT9gNj5RlUucuEMh/ZnL/MQqo3jflSTu0Llro0znXYcrqqd6pT2RjQ4Vx7UTktNRRBnSAERwPPA6E8LDdajLrdYHDBnffo7cCG8I6VlNEr5IM+fwhlJ/jgr7Y4DFN464=
@@ -27,7 +22,6 @@ env:
   - secure: A4s6wuBq5UbAtso3OQa5BweTFnxcVxAnOk9Sl8nTzW1E+8aP1PbkmfVTd8JQBXo3bUYkbCrcijAJFTp1GpAxm+KutfnNtseUnkKN0eD7+kl1uoizYK4Z/BHsfi1u3HheZG78gL25Qb5axnuDZfV1ha3+MhXql0oYNugGGTd7+NB3gt+B0IrLdt43E+x7j/lMbGMMjmpfQVL22w8vg8jKrNxycejKyGiiwJNfOxrH3klzOKL/LGcG9GAv8cwmltvQfYcPxOZg0OOiY5JKxE7SASWuUnKoLiXnkpYWkONYE+avs488ObbI9SqhMBNvuGjOomhxDJkGLtKDTgsp7xyq70VaEkbFVUg0mlYpULOTW2spzjt9yUyS8hkO8BckVUg4GDGF1faDJMKilhHOdXZwjbLpZukMzYLlIN5IdqomgqZGjNvmHr2CclAj2CVMrpP8c5ox1pGpRmtrmBmuB67n9cJ8+1r8Rmw8YHD6JmbrzvPAxyhN4EKoj/yYJocp9JxDJ5HLpKfLD1VNq55Z3wRpHHBZZ3R0sRqcvCZEzbeD7Ezuh9kI//ctVu7JJn1eZVP1JxgYAuD2cMXJoQoXDjXH6T+ma3AD0+EeYiooL9MBS8aUopxIoRJw24aQbXAdlCa0j+ci0/VFmm2X/LFjdKEK14fKy4pP7yfUq7X7Ap9I6RQ=
 before_install:
 - sudo cat /proc/meminfo
-- wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
 - ruby -v
 - gem install travis -v 1.8.9 --no-document
 - export BUILD_NAME=scc-pedigree-service-$TRAVIS_BRANCH-$(date -u "+%Y%m%d%H%M%S")-$TRAVIS_BUILD_NUMBER
@@ -37,10 +31,8 @@ jobs:
   - stage: build and publish to Docker Hub
     env: 
     - GCP_ENV=re7
-    - JDK='GraalVM 19'
     script:
-    - . ./install-jdk.sh --url "https://github.com/oracle/graal/releases/download/vm-19.2.0/graalvm-ce-linux-amd64-19.2.0.tar.gz"
-    - sh scripts/travis/tag_build.sh
+    - travis_wait 15 sh scripts/travis/tag_build.sh
     - sh scripts/travis/build_services.sh
     - sh scripts/travis/deploy_to_docker_hub.sh
 stages:
