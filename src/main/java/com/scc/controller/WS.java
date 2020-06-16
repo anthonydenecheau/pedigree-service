@@ -144,7 +144,7 @@ public class WS {
     @Path("/pedigrees")
     public Response create(@Valid PgDog dog){
         
-        dogService.save(dog);
+        dogService.populateDog(dog);
         return Response.status(Response.Status.CREATED).entity(dog).build();
     }
 
@@ -153,7 +153,7 @@ public class WS {
     @Path("/parents")
     public Response create(@Valid PgArbreGenealogie parents){
         
-        //dogService.save(parents);
+        dogService.populateParents(parents);
         return Response.status(Response.Status.CREATED).entity(parents).build();
     }
 

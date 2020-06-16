@@ -1,5 +1,5 @@
 # Developpement
-mvn compile quarkus:dev -Dquarkus.profile=gcp
+mvn compile quarkus:dev -Dquarkus.profile=dev
 
 # Documentation
-http://localhost:8085/documentation
+http://localhost:8085/public/documentation/
