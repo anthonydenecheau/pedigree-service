@@ -30,6 +30,7 @@ import org.jboss.resteasy.annotations.cache.NoCache;
 
 import com.scc.exception.NotFoundException;
 import com.scc.model.Dog;
+import com.scc.model.PgArbreGenealogie;
 import com.scc.model.PgDog;
 import com.scc.service.DogService;
 
@@ -145,6 +146,15 @@ public class WS {
         
         dogService.save(dog);
         return Response.status(Response.Status.CREATED).entity(dog).build();
+    }
+
+    @POST
+    @Transactional
+    @Path("/parents")
+    public Response create(@Valid PgArbreGenealogie parents){
+        
+        //dogService.save(parents);
+        return Response.status(Response.Status.CREATED).entity(parents).build();
     }
 
 }
