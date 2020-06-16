@@ -40,32 +40,9 @@ public class WS {
 
     private static final Logger LOG = Logger.getLogger(WS.class);
 
-/*
-    @Inject
-    SecurityIdentity identity;
-*/
     @Inject
     DogService dogService;
-/*
-    @GET
-    @Path("/me")
-    @RolesAllowed("user")
-    @Produces(MediaType.APPLICATION_JSON)
-    @NoCache
-    public Response minhasInfos() {
-        UserDetails _u = new UserDetails("id", "firstName", "lastName", "email", identity.getRoles());
-        return Response.status(Response.Status.OK).entity(_u).build();
 
-    }
-
-    @GET
-    @Path("/admin")
-    @RolesAllowed("admin")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String admin() {
-        return "Admin infos";
-    }
-*/
     @GET
     @Path("/pedigrees/{id}")
     @Tag(ref="pedigree")
@@ -108,6 +85,7 @@ public class WS {
             return Response.status(Response.Status.OK).entity(dog).build();
         else
             throw new NotFoundException("Dog Not Found");
+        
     }
             
             
