@@ -133,18 +133,23 @@ public class LoggingFilter implements ContainerRequestFilter, ClientRequestFilte
     }
 
     private InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException {
-        if(!stream.markSupported()) {
-            stream = new BufferedInputStream(stream);
+        
+        try {
+            if(!stream.markSupported()) {
+                stream = new BufferedInputStream(stream);
+            }
+            stream.mark(this.maxEntitySize + 1);
+            final byte[] entity = new byte[this.maxEntitySize + 1];
+            final int entitySize = stream.read(entity);
+            b.append(new String(entity, 0, Math.min(entitySize, this.maxEntitySize), charset));
+            if(entitySize > this.maxEntitySize) {
+                b.append("...more...");
+            }
+            b.append('\n');
+            stream.reset();
+        } catch (StringIndexOutOfBoundsException e) {
+            ;
         }
-        stream.mark(this.maxEntitySize + 1);
-        final byte[] entity = new byte[this.maxEntitySize + 1];
-        final int entitySize = stream.read(entity);
-        b.append(new String(entity, 0, Math.min(entitySize, this.maxEntitySize), charset));
-        if(entitySize > this.maxEntitySize) {
-            b.append("...more...");
-        }
-        b.append('\n');
-        stream.reset();
         return stream;
     }
 
