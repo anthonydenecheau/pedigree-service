@@ -4,11 +4,11 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Liveness;
+import org.eclipse.microprofile.health.Readiness;
 
 @ApplicationScoped
-@Liveness
-public class LivenessHealthCheck implements HealthCheck {
+@Readiness
+public class ReadinessController implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {

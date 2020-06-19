@@ -39,9 +39,9 @@ import com.scc.service.DogService;
 @ApplicationScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class WS {
+public class PedigreeController {
 
-    private static final Logger LOG = Logger.getLogger(WS.class);
+    private static final Logger LOG = Logger.getLogger(PedigreeController.class);
 
     @Inject
     DogService dogService;
@@ -137,24 +137,6 @@ public class WS {
         else {
             throw new NotFoundException("No dog found {"+token+"}");
         }
-    }
-    
-    @POST
-    @Transactional
-    @Path("/pedigrees")
-    public Response create(@Valid PgDog dog){
-        
-        dogService.populateDog(dog);
-        return Response.status(Response.Status.CREATED).entity(dog).build();
-    }
-
-    @POST
-    @Transactional
-    @Path("/parents")
-    public Response create(@Valid PgArbreGenealogie parents){
-        
-        dogService.populateParents(parents);
-        return Response.status(Response.Status.CREATED).entity(parents).build();
     }
 
 }

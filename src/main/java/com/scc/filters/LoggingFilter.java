@@ -133,7 +133,6 @@ public class LoggingFilter implements ContainerRequestFilter, ClientRequestFilte
     }
 
     private InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException {
-
         if(!stream.markSupported()) {
             stream = new BufferedInputStream(stream);
         }
