@@ -6,7 +6,6 @@ import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.scc.model.Dog;
 import com.scc.model.PgArbreGenealogie;
 import com.scc.model.PgDog;
 import com.scc.repository.DogRepository;
@@ -30,14 +29,12 @@ public class AdminService {
     @Transactional
     public void populateDog(PgDog _dog) {
         int _id = pgDogRepository.findByIdDog(_dog.getIdDog().intValue());
-        //PgDog _d = pgDogRepository.findById(_dog.getIdDog());
         if (_id > 0) {
             LOG.info(" > UPDATE");
             pgDogRepository.update("data = ?1 where idDog = ?2", _dog.getData(), _dog.getIdDog());
         } else {
             LOG.info(" > CREATE");
             pgDogRepository.insert(_dog.getIdDog(), _dog.getData());
-            //pgDogRepository.persistAndFlush(_dog);
         }
     }
 

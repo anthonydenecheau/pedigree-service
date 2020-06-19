@@ -1,8 +1,5 @@
 package com.scc.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -10,7 +7,6 @@ import javax.persistence.NoResultException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scc.model.Dog;
-import com.scc.model.MyJsonType;
 import com.scc.model.PgDog;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -25,7 +21,6 @@ public class PgDogRepository implements PanacheRepository<PgDog> {
         
         System.out.println("PgDogRepository findByIdDog Y {"+_id+"}");
         try {
-            @SuppressWarnings("unchecked")
             String _d =  (String) em.createNativeQuery(
                     "SELECT idDog " +
                     "FROM PG_DATA " +
@@ -34,10 +29,11 @@ public class PgDogRepository implements PanacheRepository<PgDog> {
                     .getSingleResult();
             
             if (_d == null || "".equals(_d))
-                return 0;
+                return -1;
             
         }catch (Exception e){
-            System.out.println("Error > findByIdDog {"+_id+"}");
+            System.out.println("Error > findByIdDog {"+_id+"}"  + e.getMessage());
+            return -1;
         }finally {
         }
         return 1;
