@@ -24,11 +24,9 @@ public class PgDog extends PanacheEntityBase {
     @Column
     public Long idDog;
 
-
     @Column
     @Type(type = "MyJsonType")
     public Dog data;
-
     
     public Long getIdDog() {
         return idDog;

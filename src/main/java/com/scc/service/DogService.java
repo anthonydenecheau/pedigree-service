@@ -92,6 +92,7 @@ public class DogService extends AbstractGenericService<Dog> {
             System.out.println("findFamilyTree level " + _level + "Mother ["+_idMother+"]");
             _m = handleRole(dogRepository.findDog(_idMother));
         }
+
         if (_m != null) {
             _dog.setMother(_m);
             if (_level < level) {
@@ -108,6 +109,7 @@ public class DogService extends AbstractGenericService<Dog> {
                     findFamilyTree(_f, _parents.idFather, _parents.idMother, _level + 1);
             }
         }
+
     }    
 
     public Dog handleRole (Dog _d)  {

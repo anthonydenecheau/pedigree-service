@@ -15,11 +15,14 @@ import java.sql.Types;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
+import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MyJsonType implements UserType {
 
+    private static final Logger LOG = Logger.getLogger(MyJsonType.class);
+    
     @Override
     public int[] sqlTypes() {
         return new int[]{Types.JAVA_OBJECT};
@@ -32,18 +35,24 @@ public class MyJsonType implements UserType {
 
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
+        
         try {
-                // use serialization to create a deep copy
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(bos);
-                oos.writeObject(value);
-                oos.flush();
-                oos.close();
-                bos.close();
-                
-                ByteArrayInputStream bais = new ByteArrayInputStream(bos.toByteArray());
-                return new ObjectInputStream(bais).readObject();
+            
+            LOG.info("deepCopy");
+
+            // use serialization to create a deep copy
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(value);
+            oos.flush();
+            oos.close();
+            bos.close();
+            
+            ByteArrayInputStream bais = new ByteArrayInputStream(bos.toByteArray());
+            return new ObjectInputStream(bais).readObject();
+            
         } catch (ClassNotFoundException | IOException ex) {
+            LOG.info(" > Erreur : deepCopy");
             throw new HibernateException(ex);
         }
     }
