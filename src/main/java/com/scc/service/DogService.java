@@ -18,9 +18,7 @@ import com.scc.model.Dog;
 import com.scc.model.Health;
 import com.scc.model.Hidden;
 import com.scc.model.PgArbreGenealogie;
-import com.scc.model.PgDog;
 import com.scc.repository.PgArbreRepository;
-import com.scc.repository.PgDogRepository;
 import com.scc.repository.DogRepository;
 
 import io.quarkus.security.identity.SecurityIdentity;
@@ -30,27 +28,16 @@ public class DogService extends AbstractGenericService<Dog> {
 
     @ConfigProperty(name = "level.generation")
     int level;
-    
+
     @Inject 
     PgArbreRepository pgArbreRepository;
-
+    
     @Inject 
     DogRepository dogRepository;
-
-    @Inject 
-    PgDogRepository pgDogRepository;
 
     @Inject
     SecurityIdentity identity;
     
-    public void populateDog(PgDog _dog) {
-        pgDogRepository.persistAndFlush(_dog);
-    }
-
-    public void populateParents(PgArbreGenealogie _parents) {
-        pgArbreRepository.persistAndFlush(_parents);
-    }
-
     public Dog findDogById(Integer id) throws IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
         return null;
     }

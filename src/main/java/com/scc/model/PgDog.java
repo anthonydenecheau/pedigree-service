@@ -22,10 +22,27 @@ public class PgDog extends PanacheEntityBase {
     
     @Id
     @Column
-    public Integer idDog;
-    
+    public Long idDog;
+
+
     @Column
     @Type(type = "MyJsonType")
     public Dog data;
 
+    
+    public Long getIdDog() {
+        return idDog;
+    }
+
+    public void setIdDog(Long idDog) {
+        this.idDog = idDog;
+    }
+
+    public Dog getData() {
+        return data;
+    }
+
+    public void setData(Dog data) {
+        this.data = data;
+    }
 }

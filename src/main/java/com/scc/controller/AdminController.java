@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.scc.model.PgArbreGenealogie;
 import com.scc.model.PgDog;
-import com.scc.service.DogService;
+import com.scc.service.AdminService;
 
 @Path("/public/admin")
 @ApplicationScoped
@@ -23,14 +23,14 @@ import com.scc.service.DogService;
 public class AdminController {
 
     @Inject
-    DogService dogService;
+    AdminService adminService;
     
     @POST
     @Transactional
     @Path("/pedigrees")
     public Response create(@Valid PgDog dog){
         
-        dogService.populateDog(dog);
+        adminService.populateDog(dog);
         return Response.status(Response.Status.CREATED).entity(dog).build();
     }
 
@@ -39,7 +39,7 @@ public class AdminController {
     @Path("/parents")
     public Response create(@Valid PgArbreGenealogie parents){
         
-        dogService.populateParents(parents);
+        adminService.populateParents(parents);
         return Response.status(Response.Status.CREATED).entity(parents).build();
     }
 }
