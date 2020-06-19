@@ -199,5 +199,14 @@ public class Dog extends Hidden {
         this.setMother(mother);
         return this;
     }
+    
+    @Override
+    public String toString() {
+        return "{id=" + id + ", name=" + name + ", gender=" + gender + ", birthDate=" + birthDate
+                + ", birthCountry=" + birthCountry + ", inbreedingCoefficient=" + inbreedingCoefficient + ", pedigrees="
+                + pedigrees + ", tokens=" + tokens + ", breed=" + breed + ", dna=" + dna + ", health=" + health
+                + ", breeder=" + breeder + ", owners=" + owners + ", titles=" + titles + ", mother=" + mother
+                + ", father=" + father + "}";
+    }    
 
 }
