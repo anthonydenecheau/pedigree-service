@@ -17,18 +17,20 @@ public class PgDogRepository implements PanacheRepository<PgDog> {
     @Inject 
     EntityManager em;
     
-    public int findByIdDog(int _id) {
+    public int findByIdDog(Long _id) {
         
         System.out.println("PgDogRepository findByIdDog Y {"+_id+"}");
+        Long _d = null;
+        
         try {
-            String _d =  (String) em.createNativeQuery(
+            _d =  (Long) em.createNativeQuery(
                     "SELECT idDog " +
                     "FROM PG_DATA " +
                     "WHERE idDog = ? ")
                     .setParameter(1, _id)
                     .getSingleResult();
             
-            if (_d == null || "".equals(_d))
+            if (_d == null)
                 return -1;
             
         }catch (Exception e){

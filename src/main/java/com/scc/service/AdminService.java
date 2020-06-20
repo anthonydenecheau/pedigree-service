@@ -28,7 +28,7 @@ public class AdminService {
     
     @Transactional
     public void populateDog(PgDog _dog) {
-        int _id = pgDogRepository.findByIdDog(_dog.getIdDog().intValue());
+        int _id = pgDogRepository.findByIdDog(_dog.getIdDog());
         if (_id > 0) {
             LOG.info(" > UPDATE");
             pgDogRepository.update("data = ?1 where idDog = ?2", _dog.getData(), _dog.getIdDog());

@@ -16,12 +16,12 @@ public class PgArbreRepository implements PanacheRepository<PgArbreGenealogie> {
     @Inject 
     EntityManager em;
       
-    public PgArbreGenealogie findParents(Integer idDog) {
+    public PgArbreGenealogie findParents(int idDog) {
         System.out.println("findParents {"+idDog+"}");
         PgArbreGenealogie _pg = null;
         try{
             TypedQuery<PgArbreGenealogie> typedQuery = em.createNamedQuery("findParents", PgArbreGenealogie.class);
-            typedQuery.setParameter("idDog", idDog);
+            typedQuery.setParameter("idDog", Long.valueOf(idDog));
             _pg = typedQuery.getSingleResult();
         } catch ( NoResultException e) {
             System.out.println("No results > findParents {"+idDog+"} " + e.getMessage());       
