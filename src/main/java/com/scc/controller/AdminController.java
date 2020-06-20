@@ -32,7 +32,7 @@ public class AdminController {
     @Transactional
     @Path("/pedigrees")
     public Response create(@Valid PgDog dog) throws Exception {
-        LOG.info("Create IdDog" + dog.getIdDog());
+        LOG.info("populateDog " + dog.getIdDog());
         adminService.populateDog(dog);
         LOG.info(" > DONE");
         return Response.status(Response.Status.CREATED).entity(dog).build();
@@ -42,7 +42,7 @@ public class AdminController {
     @Transactional
     @Path("/parents")
     public Response create(@Valid PgArbreGenealogie parents) throws Exception {
-        
+        LOG.info("populateParents " + parents.getIdDog());
         adminService.populateParents(parents);
         return Response.status(Response.Status.CREATED).entity(parents).build();
     }

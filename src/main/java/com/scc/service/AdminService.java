@@ -35,7 +35,8 @@ public class AdminService {
         } else {
             LOG.info(" > CREATE");
             //pgDogRepository.insert(_dog.getIdDog(), _dog.getData());
-            pgDogRepository.insert(_dog);
+            //pgDogRepository.insert(_dog);
+            pgDogRepository.persistAndFlush(_dog);
         }
     }
 
