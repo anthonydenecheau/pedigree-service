@@ -1,6 +1,9 @@
 package com.scc.repository;
 
+import java.math.BigDecimal;
+
 import javax.inject.Inject;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,17 +23,17 @@ public class PgDogRepository implements PanacheRepository<PgDog> {
     public int findByIdDog(Long _id) {
         
         System.out.println("PgDogRepository findByIdDog Y {"+_id+"}");
-        Long _d = null;
+        BigDecimal _d = BigDecimal.ZERO;
         
         try {
-            _d =  (Long) em.createNativeQuery(
+            _d =  (BigDecimal) em.createNativeQuery(
                     "SELECT idDog " +
                     "FROM PG_DATA " +
                     "WHERE idDog = ? ")
                     .setParameter(1, _id)
                     .getSingleResult();
             
-            if (_d == null)
+            if (_d.compareTo(BigDecimal.ZERO) == 0)
                 return -1;
             
         }catch (Exception e){
@@ -46,6 +49,7 @@ public class PgDogRepository implements PanacheRepository<PgDog> {
         System.out.println("insert {"+_id+"}");
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             em.createNativeQuery(
                     "INSERT INTO PG_DATA (idDog, data) VALUES (?, to_jsonb(?)) ")
                     .setParameter(1, _id)

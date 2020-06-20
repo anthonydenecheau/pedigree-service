@@ -31,7 +31,7 @@ public class AdminController {
     @POST
     @Transactional
     @Path("/pedigrees")
-    public Response create(@Valid PgDog dog){
+    public Response create(@Valid PgDog dog) throws Exception {
         LOG.info("Create IdDog" + dog.getIdDog());
         adminService.populateDog(dog);
         LOG.info(" > DONE");
@@ -41,7 +41,7 @@ public class AdminController {
     @POST
     @Transactional
     @Path("/parents")
-    public Response create(@Valid PgArbreGenealogie parents){
+    public Response create(@Valid PgArbreGenealogie parents) throws Exception {
         
         adminService.populateParents(parents);
         return Response.status(Response.Status.CREATED).entity(parents).build();

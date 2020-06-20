@@ -50,7 +50,7 @@ public class DogRepository implements PanacheRepository<Dog> {
         return dogs;
     }
     
-    public Dog findDog(Integer idDog) {
+    public Dog findDog(int idDog) {
         
         System.out.println("findDog {"+idDog+"}");
         Dog _dog = null;
@@ -59,7 +59,7 @@ public class DogRepository implements PanacheRepository<Dog> {
                     "SELECT jsonb_pretty(data) " +
                     "FROM PG_DATA " +
                     "WHERE idDog = :idDog")
-                    .setParameter("idDog", idDog)
+                    .setParameter("idDog", Long.valueOf(idDog))
                     .getSingleResult();
             
             if (_d != null|| "".equals(_d)) {
