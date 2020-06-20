@@ -39,7 +39,7 @@ public class DogService extends AbstractGenericService<Dog> {
     SecurityIdentity identity;
     
     public Dog findDogById(Integer id) throws IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
-        return null;
+        return dogRepository.findDog(id);
     }
 
     public Dog findDogByToken(String token) throws Exception {

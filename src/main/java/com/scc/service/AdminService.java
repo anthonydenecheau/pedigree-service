@@ -34,7 +34,8 @@ public class AdminService {
             pgDogRepository.update("data = ?1 where idDog = ?2", _dog.getData(), _dog.getIdDog());
         } else {
             LOG.info(" > CREATE");
-            pgDogRepository.insert(_dog.getIdDog(), _dog.getData());
+            //pgDogRepository.insert(_dog.getIdDog(), _dog.getData());
+            pgDogRepository.insert(_dog);
         }
     }
 

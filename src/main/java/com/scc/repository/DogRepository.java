@@ -50,7 +50,7 @@ public class DogRepository implements PanacheRepository<Dog> {
         return dogs;
     }
     
-    public Dog findDog(int idDog) {
+    public Dog findDog(Integer idDog) {
         
         System.out.println("findDog {"+idDog+"}");
         Dog _dog = null;
@@ -62,7 +62,7 @@ public class DogRepository implements PanacheRepository<Dog> {
                     .setParameter("idDog", Long.valueOf(idDog))
                     .getSingleResult();
             
-            if (_d != null|| "".equals(_d)) {
+            if (_d != null || !"".equals(_d)) {
                 ObjectMapper mapper = new ObjectMapper();
                 _dog = mapper.readValue(_d, Dog.class);
             }
