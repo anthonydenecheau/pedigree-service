@@ -17,7 +17,7 @@ import com.scc.service.LoginAttemptService;
 
 import io.vertx.core.http.HttpServerRequest;
 
-@Priority(1)
+//@Priority(1)
 @Provider
 public class TrackingFilter implements ContainerRequestFilter {
 
