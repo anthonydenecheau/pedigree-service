@@ -10,14 +10,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
+import com.scc.exception.ErrorResponse;
 import com.scc.service.LoginAttemptService;
 
 import io.vertx.core.http.HttpServerRequest;
 
-//@Priority(1)
+@Priority(1)
 @Provider
 public class TrackingFilter implements ContainerRequestFilter {
 
@@ -25,8 +27,8 @@ public class TrackingFilter implements ContainerRequestFilter {
 
     public static final String AUTHENTICATION_KEY = "X-SCC-authentification";
     
-    @ConfigProperty(name = "access.authentication.key")    
-    String KEY;
+//    @ConfigProperty(name = "access.authentication.key")    
+//    String KEY;
     
     @Inject 
     LoginAttemptService loginAttemptService;
@@ -66,7 +68,7 @@ public class TrackingFilter implements ContainerRequestFilter {
                 cc.setNoStore(true);
                 Response response = Response.status(Response.Status.FORBIDDEN)
                                             .cacheControl(cc)
-                                            .entity(msg)
+                                            .entity(new ErrorResponse(msg,String.valueOf(Response.Status.FORBIDDEN.getStatusCode())))
                                             .build();                    
                 
                 context.abortWith(response);
@@ -78,12 +80,12 @@ public class TrackingFilter implements ContainerRequestFilter {
     private boolean authenticate(String authCredentials) {
         
         Boolean ok = false;
-        
         if (null == authCredentials)
             return ok;
 
+        String key = ConfigProvider.getConfig().getValue("access.authentication.key", String.class);
         // la clé transmise est-elle reconnue ?
-        if (KEY.equals(authCredentials))
+        if (key != null && key.equals(authCredentials))
            ok = true;
 
         return ok;
