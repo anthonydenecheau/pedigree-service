@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.logging.Logger;
 
 import com.scc.model.PgArbreGenealogie;
@@ -31,6 +32,7 @@ public class AdminController {
     @POST
     @Transactional
     @Path("/pedigrees")
+    @Tag(ref="admin")
     public Response create(@Valid PgDog dog) throws Exception {
         LOG.info("populateDog " + dog.getIdDog());
         adminService.populateDog(dog);
@@ -41,6 +43,7 @@ public class AdminController {
     @POST
     @Transactional
     @Path("/parents")
+    @Tag(ref="admin")    
     public Response create(@Valid PgArbreGenealogie parents) throws Exception {
         LOG.info("populateParents " + parents.getIdDog());
         adminService.populateParents(parents);
