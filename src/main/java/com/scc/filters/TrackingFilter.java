@@ -27,9 +27,6 @@ public class TrackingFilter implements ContainerRequestFilter {
 
     public static final String AUTHENTICATION_KEY = "X-SCC-authentification";
     
-//    @ConfigProperty(name = "access.authentication.key")    
-//    String KEY;
-    
     @Inject 
     LoginAttemptService loginAttemptService;
     

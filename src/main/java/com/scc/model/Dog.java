@@ -9,9 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.scc.annotation.Role;
 
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-//@JsonInclude(JsonInclude.Include.NON_ABSENT)
-//@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "id"
