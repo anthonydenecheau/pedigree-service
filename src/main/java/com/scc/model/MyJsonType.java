@@ -15,11 +15,15 @@ import java.sql.Types;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
+import org.jboss.logging.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MyJsonType implements UserType {
 
+    private static final Logger LOG = Logger.getLogger(MyJsonType.class);
+    
     @Override
     public int[] sqlTypes() {
         return new int[]{Types.JAVA_OBJECT};
@@ -32,20 +36,39 @@ public class MyJsonType implements UserType {
 
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
+        
+        /*
+         * com.oracle.svm.core.jdk.UnsupportedFeatureError: ObjectOutputStream.writeObject() at com.oracle.svm.core.util.VMError.unsupportedFeature(VMError.java:101) at java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:68) at com.scc.model.MyJsonType.deepCopy(MyJsonType.java:46) at org.hibernate.type.CustomType.deepCopy(CustomType.java:190
+         * 
         try {
-                // use serialization to create a deep copy
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(bos);
-                oos.writeObject(value);
-                oos.flush();
-                oos.close();
-                bos.close();
-                
-                ByteArrayInputStream bais = new ByteArrayInputStream(bos.toByteArray());
-                return new ObjectInputStream(bais).readObject();
+            
+            LOG.info("deepCopy");
+            
+            // use serialization to create a deep copy
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(value);
+            oos.flush();
+            oos.close();
+            bos.close();
+            
+            ByteArrayInputStream bais = new ByteArrayInputStream(bos.toByteArray());
+            return new ObjectInputStream(bais).readObject();
+            
         } catch (ClassNotFoundException | IOException ex) {
+            LOG.error(" > Erreur : deepCopy");
             throw new HibernateException(ex);
         }
+        */
+
+        ObjectMapper mapper = new ObjectMapper();
+        Dog deepCopy = null;
+        try {
+            deepCopy =  mapper.readValue(mapper.writeValueAsString(value), returnedClass());
+        } catch (JsonProcessingException e) {
+            LOG.error(" > Erreur : deepCopy " + e.getMessage());
+        }
+        return deepCopy;
     }
 
     @Override

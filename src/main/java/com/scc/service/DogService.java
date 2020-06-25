@@ -18,9 +18,8 @@ import com.scc.model.Dog;
 import com.scc.model.Health;
 import com.scc.model.Hidden;
 import com.scc.model.PgArbreGenealogie;
-import com.scc.model.PgDog;
 import com.scc.repository.PgArbreRepository;
-import com.scc.repository.PgDogRepository;
+import com.scc.repository.DogRepository;
 
 import io.quarkus.security.identity.SecurityIdentity;
 
@@ -29,22 +28,18 @@ public class DogService extends AbstractGenericService<Dog> {
 
     @ConfigProperty(name = "level.generation")
     int level;
-    
-    @Inject 
-    PgArbreRepository pgArbreRepository;
 
     @Inject 
-    PgDogRepository pgDogRepository;
+    PgArbreRepository pgArbreRepository;
+    
+    @Inject 
+    DogRepository dogRepository;
 
     @Inject
     SecurityIdentity identity;
     
-    public void save(PgDog _dog) {
-        //PgDogRepository.persistAndFlush(_dog);
-    }
-
     public Dog findDogById(Integer id) throws IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
-        return null;
+        return dogRepository.findDog(id);
     }
 
     public Dog findDogByToken(String token) throws Exception {
@@ -54,7 +49,7 @@ public class DogService extends AbstractGenericService<Dog> {
         Dog _dog = new Dog();
         try {
 
-             _dogs = pgDogRepository.findByToken(token);
+             _dogs = dogRepository.findByToken(token);
              PgArbreGenealogie _parents = null;
              
              if (_dogs.size()>0 && _dogs != null) {
@@ -91,12 +86,13 @@ public class DogService extends AbstractGenericService<Dog> {
         
         if (_idFather != null) {
             System.out.println("findFamilyTree level " + _level + "Father ["+_idFather+"]");
-            _f = handleRole(pgDogRepository.findDog(_idFather));
+            _f = handleRole(dogRepository.findDog(_idFather));
         }
         if (_idMother != null) {
             System.out.println("findFamilyTree level " + _level + "Mother ["+_idMother+"]");
-            _m = handleRole(pgDogRepository.findDog(_idMother));
+            _m = handleRole(dogRepository.findDog(_idMother));
         }
+
         if (_m != null) {
             _dog.setMother(_m);
             if (_level < level) {
@@ -113,6 +109,7 @@ public class DogService extends AbstractGenericService<Dog> {
                     findFamilyTree(_f, _parents.idFather, _parents.idMother, _level + 1);
             }
         }
+
     }    
 
     public Dog handleRole (Dog _d)  {

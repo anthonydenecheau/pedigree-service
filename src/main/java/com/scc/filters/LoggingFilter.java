@@ -15,6 +15,7 @@ import javax.ws.rs.ext.Provider;
 import javax.ws.rs.ext.WriterInterceptor;
 import org.glassfish.jersey.message.MessageUtils;
 
+import javax.annotation.Priority;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientResponseContext;
@@ -35,6 +36,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Priority(2)
 @Provider
 public class LoggingFilter implements ContainerRequestFilter, ClientRequestFilter, ContainerResponseFilter, ClientResponseFilter, WriterInterceptor {
 
@@ -133,19 +135,23 @@ public class LoggingFilter implements ContainerRequestFilter, ClientRequestFilte
     }
 
     private InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException {
-
-        if(!stream.markSupported()) {
-            stream = new BufferedInputStream(stream);
+        
+        try {
+            if(!stream.markSupported()) {
+                stream = new BufferedInputStream(stream);
+            }
+            stream.mark(this.maxEntitySize + 1);
+            final byte[] entity = new byte[this.maxEntitySize + 1];
+            final int entitySize = stream.read(entity);
+            b.append(new String(entity, 0, Math.min(entitySize, this.maxEntitySize), charset));
+            if(entitySize > this.maxEntitySize) {
+                b.append("...more...");
+            }
+            b.append('\n');
+            stream.reset();
+        } catch (StringIndexOutOfBoundsException e) {
+            ;
         }
-        stream.mark(this.maxEntitySize + 1);
-        final byte[] entity = new byte[this.maxEntitySize + 1];
-        final int entitySize = stream.read(entity);
-        b.append(new String(entity, 0, Math.min(entitySize, this.maxEntitySize), charset));
-        if(entitySize > this.maxEntitySize) {
-            b.append("...more...");
-        }
-        b.append('\n');
-        stream.reset();
         return stream;
     }
 

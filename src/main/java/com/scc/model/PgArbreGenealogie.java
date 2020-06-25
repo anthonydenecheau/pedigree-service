@@ -17,11 +17,28 @@ public class PgArbreGenealogie extends PanacheEntityBase {
 
     @Id
     @Column( name = "id_chien" )
-    public Integer idDog;
+    public Long idDog;
     @Column( name = "id_pere" )
     public Integer idFather;
     @Column( name = "id_mere" )
     public Integer idMother;
     
-    
+    public Long getIdDog() {
+        return idDog;
+    }
+    public void setIdDog(Long idDog) {
+        this.idDog = idDog;
+    }
+    public Integer getIdFather() {
+        return idFather;
+    }
+    public void setIdFather(Integer idFather) {
+        this.idFather = idFather;
+    }
+    public Integer getIdMother() {
+        return idMother;
+    }
+    public void setIdMother(Integer idMother) {
+        this.idMother = idMother;
+    }    
 }

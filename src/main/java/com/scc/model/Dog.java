@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.scc.annotation.Role;
 
@@ -199,5 +200,14 @@ public class Dog extends Hidden {
         this.setMother(mother);
         return this;
     }
+    
+    @Override
+    public String toString() {
+        return "{id=" + id + ", name=" + name + ", gender=" + gender + ", birthDate=" + birthDate
+                + ", birthCountry=" + birthCountry + ", inbreedingCoefficient=" + inbreedingCoefficient + ", pedigrees="
+                + pedigrees + ", tokens=" + tokens + ", breed=" + breed + ", dna=" + dna + ", health=" + health
+                + ", breeder=" + breeder + ", owners=" + owners + ", titles=" + titles + ", mother=" + mother
+                + ", father=" + father + "}";
+    }    
 
 }

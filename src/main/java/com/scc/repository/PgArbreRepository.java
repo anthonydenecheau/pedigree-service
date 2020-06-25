@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import org.jboss.logging.Logger;
+
 import com.scc.model.PgArbreGenealogie;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -13,20 +15,22 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 @Singleton
 public class PgArbreRepository implements PanacheRepository<PgArbreGenealogie> {
 
+    private static final Logger LOG = Logger.getLogger(PgArbreRepository.class);
+    
     @Inject 
     EntityManager em;
       
-    public PgArbreGenealogie findParents(Integer idDog) {
+    public PgArbreGenealogie findParents(int idDog) {
         System.out.println("findParents {"+idDog+"}");
         PgArbreGenealogie _pg = null;
         try{
             TypedQuery<PgArbreGenealogie> typedQuery = em.createNamedQuery("findParents", PgArbreGenealogie.class);
-            typedQuery.setParameter("idDog", idDog);
+            typedQuery.setParameter("idDog", Long.valueOf(idDog));
             _pg = typedQuery.getSingleResult();
         } catch ( NoResultException e) {
-            System.out.println("No results > findParents {"+idDog+"} " + e.getMessage());       
+            LOG.error("No results > findParents {"+idDog+"} " + e.getMessage());       
         } catch (Exception e){
-            System.out.println("Error > findParents {"+idDog+"} " + e.getMessage());
+            LOG.error("Error > findParents {"+idDog+"} " + e.getMessage());
         }
         return _pg;
     }

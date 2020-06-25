@@ -1,16 +1,15 @@
 package com.scc.repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 import javax.inject.Inject;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import org.jboss.logging.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scc.model.Dog;
 import com.scc.model.PgDog;
@@ -18,66 +17,73 @@ import com.scc.model.PgDog;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @Singleton
-public class PgDogRepository implements PanacheRepository<Dog> {
+public class PgDogRepository implements PanacheRepository<PgDog> {
+
+    private static final Logger LOG = Logger.getLogger(PgDogRepository.class);
 
     @Inject 
     EntityManager em;
-      
-    public List<Dog> findByToken(String token) {
-        
-        System.out.println("DogRepository findByToken Y {"+token+"}");
-        List<Dog> dogs = new ArrayList<Dog>();
-        
-        try {
-            @SuppressWarnings("unchecked")
-            List<String> _dogs =  (List<String>) em.createNativeQuery(
-                    "SELECT jsonb_pretty(data) " +
-                    "FROM PG_DATA " +
-                    "WHERE data->'tokens' @> '[{\"number\": \""+token+"\"}]'")
-                    //"WHERE data->'tokens' @> jsonb_build_object('number', :token)")
-                    //.setParameter("token", token)
-                    //.getSingleResult();
-                    .getResultList();
-            
-            System.out.println("chien trouvé {"+_dogs.size()+"}");
-            if (_dogs.size()>0) {
-                ObjectMapper mapper = new ObjectMapper();
-                for (String _dog : _dogs)
-                    dogs.add(mapper.readValue(_dog, Dog.class));
-                ;
-            } 
-            //else
-            //    throw new Exception("No dog found {"+token+"}");
-        }catch (Exception e){
-            System.out.println("Error > findByToken {"+token+"}");
-        }        
-        return dogs;
-    }
     
-    public Dog findDog(Integer idDog) {
+    public int findByIdDog(Long _id) {
         
-        System.out.println("findDog {"+idDog+"}");
-        Dog _dog = null;
+        System.out.println("PgDogRepository findByIdDog Y {"+_id+"}");
+        BigDecimal _d = BigDecimal.ZERO;
+        
         try {
-            String _d =  (String) em.createNativeQuery(
-                    "SELECT jsonb_pretty(data) " +
+            _d =  (BigDecimal) em.createNativeQuery(
+                    "SELECT idDog " +
                     "FROM PG_DATA " +
-                    "WHERE idDog = :idDog")
-                    .setParameter("idDog", idDog)
+                    "WHERE idDog = ? ")
+                    .setParameter(1, _id)
                     .getSingleResult();
             
-            if (_d != null|| "".equals(_d)) {
-                ObjectMapper mapper = new ObjectMapper();
-                _dog = mapper.readValue(_d, Dog.class);
-            }
+            if (_d.compareTo(BigDecimal.ZERO) == 0)
+                return -1;
             
-        } catch ( NoResultException e) {
-            System.out.println("No results > findDog {"+idDog+"} " + e.getMessage());
-        } catch (Exception e){
-            System.out.println("Error > findDog {"+idDog+"} " + e.getMessage());
+        }catch (Exception e){
+            LOG.error("Error > findByIdDog {"+_id+"}"  + e.getMessage());
+            return -1;
+        }finally {
         }
-        return _dog;
+        return 1;
+    }
+    
+    public void insert (PgDog _dog) {
+
+        System.out.println("insert {"+_dog.getIdDog()+"}");
+        try {
+            em.createNativeQuery(
+                    "INSERT INTO PG_DATA (idDog, data) VALUES (?, ?) ")
+                    .setParameter(1, _dog.getIdDog())
+                    .setParameter(2, _dog.getData())
+                    .executeUpdate();
+            em.flush();
+        } catch ( NoResultException e) {
+            LOG.error("No results > insert {"+_dog.getIdDog()+"} " + e.getMessage());
+        } catch (Exception e){
+            LOG.error("Error > insert {"+_dog.getIdDog()+"} " + e.getMessage());
+        }
+
+    }
+    
+    public void insert(Long _id, Dog _dog) {
+        
+        System.out.println("insert {"+_id+"}");
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            em.createNativeQuery(
+                    "INSERT INTO PG_DATA (idDog, data) VALUES (?, to_jsonb(?)) ")
+                    .setParameter(1, _id)
+                    .setParameter(2, mapper.writeValueAsString(_dog))
+                    .executeUpdate();
+            em.flush();
+        } catch ( NoResultException e) {
+            LOG.error("No results > insert {"+_id+"} " + e.getMessage());
+        } catch (Exception e){
+            LOG.error("Error > insert {"+_id+"} " + e.getMessage());
+        }
         
     }
-
+    
 }
