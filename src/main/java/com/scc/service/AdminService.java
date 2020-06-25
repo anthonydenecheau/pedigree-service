@@ -6,8 +6,8 @@ import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.scc.model.PgArbreGenealogie;
-import com.scc.model.PgDog;
+import com.scc.dto.PgArbreGenealogie;
+import com.scc.dto.PgDog;
 import com.scc.repository.DogRepository;
 import com.scc.repository.PgArbreRepository;
 import com.scc.repository.PgDogRepository;

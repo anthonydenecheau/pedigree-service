@@ -1,6 +1,10 @@
 # Developpement
 mvn compile quarkus:dev -Dquarkus.profile=dev
 
+# Test
+set DOCKER_HOST=tcp://localhost:2375
+mvn test
+
 # Documentation
 http://localhost:8085/public/documentation/
 
