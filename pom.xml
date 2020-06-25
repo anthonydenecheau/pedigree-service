@@ -174,7 +174,7 @@
                         </image>
                     </images>
                 </configuration>
-                <!--executions>
+                <executions>
                     <execution>
                         <id>docker-start</id>
                         <phase>test-compile</phase>
@@ -190,7 +190,7 @@
                             <goal>stop</goal>
                         </goals>
                     </execution>
-                </executions-->
+                </executions>
             </plugin>			
 		</plugins>
 	</build>
