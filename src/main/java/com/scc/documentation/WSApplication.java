@@ -17,9 +17,9 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
         version = "1.0",
         contact = @Contact(name = "Centrale Canine", url = "https://www.centrale-canine.fr/")),
     servers = {
-        @Server(url = "http://localhost:8089")
+        @Server(url = "https://ws-pedigree-service.elhadir.com")
     },
-    externalDocs = @ExternalDocumentation(url = "https://github.com/centrale-canine/ws-pedigree-app", description = "Wiki"),
+    externalDocs = @ExternalDocumentation(url = "https://github.com/anthonydenecheau/pedigree-service/wiki", description = "Wiki"),
     tags = {
         @Tag(name = "dog", description = "Pedigree")
     }

@@ -27,7 +27,7 @@ import com.scc.dto.Dog;
 import com.scc.exception.NotFoundException;
 import com.scc.service.DogService;
 
-@Path("/api")
+@Path("/api/v1")
 //@SecurityScheme(securitySchemeName = "jwt", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "jwt")
 @ApplicationScoped
 @Consumes(MediaType.APPLICATION_JSON)
