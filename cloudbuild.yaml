@@ -14,8 +14,10 @@ steps:
   args: ['push', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-# '--set-cloudsql-instances','rugged-shuttle-277619:europe-west1:openid-db-88a629ad',
-  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+#  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+  args: ['run', 'deploy', '${ENVT}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+  env:
+  - 'ENVT=`if [ "master" == "${BRANCH_NAME}" ]; then echo "prod"; else echo "${BRANCH_NAME}"; fi`'
 images:
 - 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA'
 options:
