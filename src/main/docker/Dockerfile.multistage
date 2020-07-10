@@ -41,7 +41,6 @@ RUN chmod 775 /work /work/application /work/run.sh \
 
 USER 1001
 EXPOSE $PORT
-ENV PROFILE = ${BRANCH}
 CMD ["./run.sh"]
 
 #EXPOSE 8080
