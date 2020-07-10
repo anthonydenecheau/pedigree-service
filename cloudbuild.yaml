@@ -13,15 +13,13 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA']
 # Deal with branch master and write to file /workspace/_ENVT
-- name: 'ubuntu'
-  id: 'Setup'
-  args: ['bash', '-c', "echo `if [ 'master' == '${BRANCH_NAME}' ]; then echo 'prod'; else echo '${BRANCH_NAME}'; fi` > _ENVT; echo $(cat _ENVT)"]
+#- name: 'ubuntu'
+#  id: 'Setup'
+#  args: ['bash', '-c', "echo `if [ 'master' == '${BRANCH_NAME}' ]; then echo 'prod'; else echo '${BRANCH_NAME}'; fi` > _ENVT; echo $(cat _ENVT)"]
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-#  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
-  args: ['run', 'deploy', '$(cat _ENVT)-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
-  env:
-  - 'ENVT=`if [ "master" == "${BRANCH_NAME}" ]; then echo "prod"; else echo "${BRANCH_NAME}"; fi`'
+  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+#  args: ['run', 'deploy', '$(cat _ENVT)-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
 images:
 - 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA'
 options:
