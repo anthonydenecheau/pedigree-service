@@ -8,16 +8,20 @@ steps:
   args: [ '-c', 'gcloud secrets versions access latest --secret=ws-openid-enc > ws-openid.json' ]  
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-f', 'src/main/docker/Dockerfile.multistage', '-t', 'gcr.io/$PROJECT_ID/pedigree-service', '.' ]
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile.multistage', '-t', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '.' ]
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/pedigree-service']
+  args: ['push', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA']
+# Deal with branch master and write to file /workspace/_ENVT
+#- name: 'ubuntu'
+#  id: 'Setup'
+#  args: ['bash', '-c', "echo `if [ 'master' == '${BRANCH_NAME}' ]; then echo 'prod'; else echo '${BRANCH_NAME}'; fi` > _ENVT; echo $(cat _ENVT)"]
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-# '--set-cloudsql-instances','rugged-shuttle-277619:europe-west1:openid-db-88a629ad',
-  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+#  args: ['run', 'deploy', '$(cat _ENVT)-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
 images:
-- 'gcr.io/$PROJECT_ID/pedigree-service'
+- 'gcr.io/$PROJECT_ID/pedigree-service:$COMMIT_SHA'
 options:
  machineType: 'N1_HIGHCPU_8'
  diskSizeGb: 200
