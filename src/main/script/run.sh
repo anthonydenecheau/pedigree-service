@@ -9,5 +9,5 @@ echo "Start the proxy"
 sleep 2
 
 ## Start the server
-echo "Start the server"
-./application -Dquarkus-profile=dev -Dquarkus.http.host=0.0.0.0 -Dquarkus.http.port=$PORT -Djavax.net.ssl.trustStore=/work/cacerts
+echo "Start the server within PROFILE: " $PROFILE
+./application -Dquarkus-profile=$PROFILE -Dquarkus.http.host=0.0.0.0 -Dquarkus.http.port=$PORT -Djavax.net.ssl.trustStore=/work/cacerts
