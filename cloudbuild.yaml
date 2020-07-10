@@ -1,19 +1,25 @@
+#
 #Fichier de config CloudBuild
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
   args: ['install']
+#
 # Get credentials
 - name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
   args: [ '-c', 'gcloud secrets versions access latest --secret=ws-openid-enc > ws-openid.json' ]  
+#
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-f', 'src/main/docker/Dockerfile.multistage', '-t', 'gcr.io/$PROJECT_ID/pedigree-service', '.' ]
+#
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/pedigree-service']
+#
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
+#
 # '--set-cloudsql-instances','rugged-shuttle-277619:europe-west1:openid-db-88a629ad',
   args: ['run', 'deploy', 'ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
 images:
