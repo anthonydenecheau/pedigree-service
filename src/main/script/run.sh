@@ -6,7 +6,7 @@ echo "Start the proxy"
 /usr/local/bin/cloud_sql_proxy -instances=${DATASOURCE_URL}=tcp:5432 -credential_file=ws-openid.json &
 
 # wait for the proxy to spin up
-sleep 2
+sleep 10
 
 ## Start the server
 echo "Start the server within PROFILE: " $PROFILE
