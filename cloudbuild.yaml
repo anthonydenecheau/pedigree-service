@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Fichier de config CloudBuild
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
@@ -20,4 +21,32 @@ images:
 - 'gcr.io/$PROJECT_ID/pedigree-service'
 options:
  machineType: 'N1_HIGHCPU_8'
+=======
+#
+#Fichier de config CloudBuild
+steps:
+- name: 'gcr.io/cloud-builders/mvn'
+  args: ['install']
+#
+# Get credentials
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', 'gcloud secrets versions access latest --secret=ws-openid-enc > ws-openid.json' ]  
+#
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile.multistage', '-t', 'gcr.io/$PROJECT_ID/pedigree-service', '.' ]
+#
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/pedigree-service']
+#
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', '${BRANCH_NAME}-ws-pedigree-service', '--image', 'gcr.io/$PROJECT_ID/pedigree-service', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+images:
+- 'gcr.io/$PROJECT_ID/pedigree-service'
+options:
+ machineType: 'N1_HIGHCPU_8'
+>>>>>>> refs/remotes/origin/dev
  diskSizeGb: 200
