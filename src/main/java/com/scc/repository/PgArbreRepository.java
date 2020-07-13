@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import com.scc.model.PgArbreGenealogie;
+import com.scc.dto.PgArbreGenealogie;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 

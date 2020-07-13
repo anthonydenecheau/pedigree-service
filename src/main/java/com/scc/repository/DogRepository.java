@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scc.model.Dog;
+import com.scc.dto.Dog;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
