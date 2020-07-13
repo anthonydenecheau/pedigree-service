@@ -226,6 +226,9 @@
 					<plugin>
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<version>${surefire-plugin.version}</version>
+						<configuration>
+                    		<skipITs>${skipTests}</skipITs>
+                		</configuration>						
 						<executions>
 							<execution>
 								<goals>
