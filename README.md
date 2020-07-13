@@ -1,5 +1,5 @@
 # Developpement
-mvn compile quarkus:dev -Dquarkus.profile=dev
+mvn compile quarkus:dev -Dquarkus.profile=local
 
 # Test
 set DOCKER_HOST=tcp://localhost:2375
