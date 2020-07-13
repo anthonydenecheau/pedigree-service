@@ -36,7 +36,7 @@ public class PolicyEnforcerTest {
     @Test
     public void testAccessUserResource() {
         RestAssured.given().auth().oauth2(getAccessToken("alice"))
-                .when().get("/api/pedigrees/token/JVP685")
+                .when().get("/api/v1/pedigrees/token/JVP685")
                 .then()
                 .statusCode(200);
     }
