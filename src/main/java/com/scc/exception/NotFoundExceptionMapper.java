@@ -15,13 +15,19 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
     @Override
     public Response toResponse(NotFoundException ex) {
         
-        ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setCode(Response.Status.NOT_FOUND.getStatusCode());
-        errorMessage.setMessage(ex.getMessage());
+        ErrorMessageNF errorMessage = new ErrorMessageNF();
+        errorMessage.code = Response.Status.NOT_FOUND.getStatusCode();
+        errorMessage.message = ex.getMessage();
         
-        return Response.status(errorMessage.getCode())
+        return Response.status(errorMessage.code)
               .entity(errorMessage)
               .type(MediaType.APPLICATION_JSON)
               .build();
     }
+    
+    public static class ErrorMessageNF {
+        public  String message;
+        public  int code;
+    }
+    
 }
