@@ -18,6 +18,7 @@ public class KeycloakResource  implements QuarkusTestResourceLifecycleManager  {
     @Override
     public Map<String, String> start() {
         System.out.println("########START KEYCLOAK########");
+        String url = "";
         keycloak = new FixedHostPortGenericContainer("quay.io/keycloak/keycloak:7.0.1")
                 .withFixedExposedPort(8180, 8080)
                 .withEnv("KEYCLOAK_USER", "admin")
@@ -26,7 +27,9 @@ public class KeycloakResource  implements QuarkusTestResourceLifecycleManager  {
                 .withClasspathResourceMapping("quarkus-realm.json", "/tmp/quarkus-realm.json", BindMode.READ_ONLY)
                 .waitingFor(Wait.forHttp("/auth"));
         keycloak.start();
-        return Collections.singletonMap("keycloak.bootstrap.ip", keycloak.getContainerIpAddress());
+        
+        url = "http://"+keycloak.getContainerIpAddress()+":8180/auth/realms/quarkus";
+        return Collections.singletonMap("quarkus.oidc.auth-server-url",url);
     }
 
     @Override

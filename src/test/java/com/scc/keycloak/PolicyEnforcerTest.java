@@ -17,8 +17,7 @@ import io.restassured.RestAssured;
 public class PolicyEnforcerTest {
         
     //private static final String KEYCLOAK_SERVER_URL = System.getProperty("keycloak.url", "http://"+KeycloakServer.keycloak.getContainerIpAddress()+":"+KeycloakServer.keycloak.getFirstMappedPort()+"/auth");    
-    private static final String KEYCLOAK_SERVER_IP = System.getProperty("keycloak.bootstrap.ip", "localhost");
-    private static final String KEYCLOAK_REALM = "quarkus";
+    private static final String KEYCLOAK_SERVER_URL = System.getProperty("quarkus.oidc.auth-server-url", "http://localhost:8180/auth/realms/quarkus");
 
     @Test
     public void testAccessUserResource() {
@@ -30,8 +29,7 @@ public class PolicyEnforcerTest {
     }
 
     private String getAccessToken(String userName) {
-        String KEYCLOAK_SERVER_URL = "http://"+KEYCLOAK_SERVER_IP+":8180/auth";
-        System.out.println("############"+KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token"+"#############");
+        System.out.println("############"+KEYCLOAK_SERVER_URL+"/protocol/openid-connect/token"+"#############");
         return RestAssured
                 .given()
                 .param("grant_type", "password")
@@ -40,7 +38,8 @@ public class PolicyEnforcerTest {
                 .param("client_id", "backend-service")
                 .param("client_secret", "secret")
                 .when()
-                .post(KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token")
+                //.post(KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token")
+                .post(KEYCLOAK_SERVER_URL+ "/protocol/openid-connect/token")
                 .as(AccessTokenResponse.class).getToken();
     }
 
