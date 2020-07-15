@@ -16,7 +16,6 @@ import io.restassured.RestAssured;
 @QuarkusTestResource(KeycloakResource.class)
 public class PolicyEnforcerTest {
         
-    //private static final String KEYCLOAK_SERVER_URL = System.getProperty("keycloak.url", "http://"+KeycloakServer.keycloak.getContainerIpAddress()+":"+KeycloakServer.keycloak.getFirstMappedPort()+"/auth");    
     private static final String KEYCLOAK_SERVER_URL = System.getProperty("quarkus.oidc.auth-server-url", "http://localhost:8180/auth/realms/quarkus");
 
     @Test
