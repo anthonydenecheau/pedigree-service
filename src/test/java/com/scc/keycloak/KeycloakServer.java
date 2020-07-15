@@ -8,6 +8,9 @@ import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
+import io.quarkus.test.junit.DisabledOnNativeImage;
+
+@DisabledOnNativeImage
 public class KeycloakServer implements BeforeAllCallback, AfterAllCallback {
 
     private GenericContainer keycloak;
