@@ -5,6 +5,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Priorities;
 
@@ -21,10 +24,11 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
         
         return Response.status(errorMessage.code)
               .entity(errorMessage)
-              .type(MediaType.APPLICATION_JSON)
+              .type(MediaType.APPLICATION_JSON_TYPE)
               .build();
     }
     
+    @RegisterForReflection
     public static class ErrorMessageNF {
         public  String message;
         public  int code;

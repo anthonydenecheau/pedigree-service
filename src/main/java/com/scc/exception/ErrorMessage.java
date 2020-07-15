@@ -1,5 +1,8 @@
 package com.scc.exception;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class ErrorMessage {
    
     String message;
