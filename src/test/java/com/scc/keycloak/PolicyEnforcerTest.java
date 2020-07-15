@@ -2,14 +2,17 @@ package com.scc.keycloak;
 
 import org.junit.jupiter.api.Test;
 import org.keycloak.representations.AccessTokenResponse;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.DisabledOnNativeImage;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 
+@Testcontainers
 @QuarkusTest
 @DisabledOnNativeImage
+@QuarkusTestResource(PostgreSQLResource.class)
 @QuarkusTestResource(KeycloakResource.class)
 public class PolicyEnforcerTest {
         
