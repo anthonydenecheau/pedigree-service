@@ -38,7 +38,6 @@ public class PolicyEnforcerTest {
                 .param("client_id", "backend-service")
                 .param("client_secret", "secret")
                 .when()
-                //.post(KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token")
                 .post(KEYCLOAK_SERVER_URL+ "/protocol/openid-connect/token")
                 .as(AccessTokenResponse.class).getToken();
     }

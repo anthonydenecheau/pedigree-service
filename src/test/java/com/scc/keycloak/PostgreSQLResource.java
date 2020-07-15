@@ -19,6 +19,7 @@ public class PostgreSQLResource implements QuarkusTestResourceLifecycleManager {
     @Override
     public Map<String, String> start() {
         System.out.println("########START POSTGRESQL########");
+        String url = "";
         db = new PostgreSQLContainer<>("postgres:11-alpine")
                 .withDatabaseName("quarkus_test")
                 .withUsername("quarkus_test")
@@ -31,7 +32,9 @@ public class PostgreSQLResource implements QuarkusTestResourceLifecycleManager {
                             .withPortBindings(new PortBinding(Ports.Binding.bindPort(5432), new ExposedPort(5432)));
                 });
         db.start();
-        return Collections.singletonMap("db.bootstrap.ip", db.getContainerIpAddress());
+        url = db.getJdbcUrl();
+        System.out.println("########"+db.getJdbcUrl()+"########");
+        return Collections.singletonMap("quarkus.datasource.url", url);
     }
 
     @Override
