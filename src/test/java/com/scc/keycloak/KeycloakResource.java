@@ -1,22 +1,23 @@
 package com.scc.keycloak;
 
-import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import java.util.Collections;
+import java.util.Map;
+
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
-import io.quarkus.test.junit.DisabledOnNativeImage;
+import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 
-@DisabledOnNativeImage
-public class KeycloakServer implements BeforeAllCallback, AfterAllCallback {
+public class KeycloakResource  implements QuarkusTestResourceLifecycleManager  {
 
-    private GenericContainer keycloak;
+    private static GenericContainer keycloak;
 
+    @SuppressWarnings("resource")
     @Override
-    public void beforeAll(ExtensionContext extensionContext) {
+    public Map<String, String> start() {
+        System.out.println("########START KEYCLOAK########");
         keycloak = new FixedHostPortGenericContainer("quay.io/keycloak/keycloak:7.0.1")
                 .withFixedExposedPort(8180, 8080)
                 .withEnv("KEYCLOAK_USER", "admin")
@@ -25,10 +26,12 @@ public class KeycloakServer implements BeforeAllCallback, AfterAllCallback {
                 .withClasspathResourceMapping("quarkus-realm.json", "/tmp/quarkus-realm.json", BindMode.READ_ONLY)
                 .waitingFor(Wait.forHttp("/auth"));
         keycloak.start();
+        return Collections.singletonMap("keycloak.bootstrap.ip", keycloak.getContainerIpAddress());
     }
 
     @Override
-    public void afterAll(ExtensionContext extensionContext) {
+    public void stop() {
+        System.out.println("########STOP KEYCLOAK########");
         keycloak.stop();
     }
 }

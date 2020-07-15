@@ -1,20 +1,45 @@
 package com.scc.keycloak;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.representations.AccessTokenResponse;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.DisabledOnNativeImage;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 
-@ExtendWith(KeycloakServer.class)
 @QuarkusTest
 @DisabledOnNativeImage
+@QuarkusTestResource(KeycloakResource.class)
 public class PolicyEnforcerTest {
-
-    private static final String KEYCLOAK_SERVER_URL = System.getProperty("keycloak.url", "http://localhost:8180/auth");
+        
+    //private static final String KEYCLOAK_SERVER_URL = System.getProperty("keycloak.url", "http://"+KeycloakServer.keycloak.getContainerIpAddress()+":"+KeycloakServer.keycloak.getFirstMappedPort()+"/auth");    
+    private static final String KEYCLOAK_SERVER_IP = System.getProperty("keycloak.bootstrap.ip", "localhost");
     private static final String KEYCLOAK_REALM = "quarkus";
+
+    @Test
+    public void testAccessUserResource() {
+        System.out.println("############testAccessUserResource#############");
+        RestAssured.given().auth().oauth2(getAccessToken("alice"))
+                .when().get("/api/v1/pedigrees/token/JVP685")
+                .then()
+                .statusCode(200);
+    }
+
+    private String getAccessToken(String userName) {
+        String KEYCLOAK_SERVER_URL = "http://"+KEYCLOAK_SERVER_IP+":8180/auth";
+        System.out.println("############"+KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token"+"#############");
+        return RestAssured
+                .given()
+                .param("grant_type", "password")
+                .param("username", userName)
+                .param("password", userName)
+                .param("client_id", "backend-service")
+                .param("client_secret", "secret")
+                .when()
+                .post(KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token")
+                .as(AccessTokenResponse.class).getToken();
+    }
 
     /*
     @Test
@@ -30,13 +55,7 @@ public class PolicyEnforcerTest {
        ;
     }
     */
-    @Test
-    public void testAccessUserResource() {
-        RestAssured.given().auth().oauth2(getAccessToken("alice"))
-                .when().get("/api/v1/pedigrees/token/JVP685")
-                .then()
-                .statusCode(200);
-    }
+
     /*
     @Test
     public void testAccessAdminResource() {
@@ -63,16 +82,5 @@ public class PolicyEnforcerTest {
                 .statusCode(200);
     }
     */
-    private String getAccessToken(String userName) {
-        return RestAssured
-                .given()
-                .param("grant_type", "password")
-                .param("username", userName)
-                .param("password", userName)
-                .param("client_id", "backend-service")
-                .param("client_secret", "secret")
-                .when()
-                .post(KEYCLOAK_SERVER_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token")
-                .as(AccessTokenResponse.class).getToken();
-    }
+    
 }
