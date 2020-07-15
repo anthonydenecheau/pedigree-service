@@ -11,8 +11,8 @@ import javax.persistence.NoResultException;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scc.model.Dog;
-import com.scc.model.PgDog;
+import com.scc.dto.Dog;
+import com.scc.dto.PgDog;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
