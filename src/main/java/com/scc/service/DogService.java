@@ -13,11 +13,11 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.scc.annotation.Role;
-import com.scc.model.Dna;
-import com.scc.model.Dog;
-import com.scc.model.Health;
-import com.scc.model.Hidden;
-import com.scc.model.PgArbreGenealogie;
+import com.scc.dto.Dna;
+import com.scc.dto.Dog;
+import com.scc.dto.Health;
+import com.scc.dto.Hidden;
+import com.scc.dto.PgArbreGenealogie;
 import com.scc.repository.PgArbreRepository;
 import com.scc.repository.DogRepository;
 

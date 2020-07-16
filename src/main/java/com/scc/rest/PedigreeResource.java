@@ -1,10 +1,11 @@
-package com.scc.controller;
+package com.scc.rest;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,18 +24,17 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.cache.NoCache;
 
-import com.scc.exception.NotFoundException;
-import com.scc.model.Dog;
+import com.scc.dto.Dog;
 import com.scc.service.DogService;
 
-@Path("/api")
+@Path("/api/v1")
 //@SecurityScheme(securitySchemeName = "jwt", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "jwt")
 @ApplicationScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class PedigreeController {
+public class PedigreeResource {
 
-    private static final Logger LOG = Logger.getLogger(PedigreeController.class);
+    private static final Logger LOG = Logger.getLogger(PedigreeResource.class);
 
     @Inject
     DogService dogService;

@@ -11,10 +11,9 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
 import org.eclipse.microprofile.config.ConfigProvider;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import com.scc.exception.ErrorResponse;
+import com.scc.exception.ErrorMessage;
 import com.scc.service.LoginAttemptService;
 
 import io.vertx.core.http.HttpServerRequest;
@@ -65,7 +64,7 @@ public class TrackingFilter implements ContainerRequestFilter {
                 cc.setNoStore(true);
                 Response response = Response.status(Response.Status.FORBIDDEN)
                                             .cacheControl(cc)
-                                            .entity(new ErrorResponse(msg,String.valueOf(Response.Status.FORBIDDEN.getStatusCode())))
+                                            .entity(new ErrorMessage(msg,Response.Status.FORBIDDEN.getStatusCode()))
                                             .build();                    
                 
                 context.abortWith(response);

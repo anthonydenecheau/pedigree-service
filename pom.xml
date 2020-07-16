@@ -14,7 +14,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<surefire-plugin.version>2.22.1</surefire-plugin.version>
-		<testcontainers.version>1.14.1</testcontainers.version>
+		<testcontainers.version>1.12.5</testcontainers.version>
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
 		<docker-plugin.version>0.28.0</docker-plugin.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -95,11 +95,16 @@
 	    </dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
-			<artifactId>testcontainers</artifactId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+	    <dependency>
+	      <groupId>org.testcontainers</groupId>
+	      <artifactId>postgresql</artifactId>
+	      <version>${testcontainers.version}</version>
+		  <scope>test</scope>
+	    </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -118,6 +123,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire-plugin.version}</version>
 				<configuration>
+	              <configuration>
+	              	<skipTests>${skipTests}</skipTests>
+	              </configuration>				
 				  <systemPropertyVariables>
 					<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 					<maven.home>${maven.home}</maven.home>
@@ -135,9 +143,10 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>			
 		</plugins>
 	</build>
+	
 	<profiles>
 		<profile>
 			<id>native</id>
@@ -166,6 +175,9 @@
 					<plugin>
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<version>${surefire-plugin.version}</version>
+						<configuration>
+                    		<skipITs>${skipTests}</skipITs>
+                		</configuration>						
 						<executions>
 							<execution>
 								<goals>

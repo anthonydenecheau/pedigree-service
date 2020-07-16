@@ -14,7 +14,7 @@ COPY src /usr/src/app/src
 USER root
 RUN chown -R quarkus /usr/src/app
 USER quarkus
-RUN mvn -f /usr/src/app/pom.xml -Pnative clean package -DskipTests=true
+RUN mvn -f /usr/src/app/pom.xml -Pnative clean package -Dskip.surefire.tests -DskipTests=true
 
 ## Stage 2 : create the docker final image
 FROM registry.access.redhat.com/ubi8/ubi-minimal
@@ -42,8 +42,3 @@ RUN chmod 775 /work /work/application /work/run.sh \
 USER 1001
 EXPOSE $PORT
 CMD ["./run.sh"]
-
-#EXPOSE 8080
-#USER 1001
-#ENV DISABLE_SIGNAL_HANDLERS true
-#CMD ["./application", "-Dquarkus.http.host=0.0.0.0", "-Djavax.net.ssl.trustStore=/work/cacerts"]

@@ -6,7 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.scc.model.Hidden;
+import com.scc.dto.Hidden;
 
 public class CollectionSerializer extends JsonSerializer<List<? extends Hidden>> {
 
