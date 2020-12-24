@@ -1,0 +1,41 @@
+language: java
+cache:
+  directories:
+  - "$HOME/.m2"
+dist: trusty
+#jdk:
+#- oraclejdk8
+#sudo: required
+services:
+- docker
+notifications:
+  slack:
+    secure: V0ktPeM+cto4/USxHkIBWPyyZ/ni5v7yPwGFVbalPUvkPmYRgFq5T0p8E/Tp9iW1JXVJ7x7vigytwrxjgChgcI6pU7ba7ud6qpbV1XiPnR7KTDi9UJ6/R4QyZkAyTewprGiPCMNgFm2fpweA/+emII+QfKvLvk1EQ5mnwJa2urbHZpxZUXoT9F1NtGoHxXCwGHS3XzGJeB5wSHj9/N3JhQ1gljgPGVJYqJ64pFidTyNH1I0hCekmODUwXiq+EGtPDd3qitnW+cAyjkTo38t4VMiGfYnnJeHE0DUPw1T5iKxUlJbuMNqbznnbNZ4UA5Yl1V7JRvqBX6IHG/Bz2Oqz0BdeTRujhJsHvTYxrwRjujA3lboe/rCJw+o7I18ObO2U3h7VGoyk93S4b5mgKg7xYxnmiW2LzCDq+XTo2/+SaL+IQD74A4YwQit0Ng4xKCwUveT2hIHkzoTox89plHNtU0f30BAbAz4WsWlvn/WNcuXwjS8It2mmUb0P5DgQnBX+FsCfQDfUl7dDulFZc3yrYsPnfJGkQgLYJ2YvgiUkZSMwT9gNj5RlUucuEMh/ZnL/MQqo3jflSTu0Llro0znXYcrqqd6pT2RjQ4Vx7UTktNRRBnSAERwPPA6E8LDdajLrdYHDBnffo7cCG8I6VlNEr5IM+fwhlJ/jgr7Y4DFN464=
+  email:
+  - anthony.denecheau@gmail.com
+  on_success: always
+  on_failure: always
+env:
+  global:
+  - secure: ozzlkKKaXvaL12i4ZhCPuUkN2ORUcSSPbnhtjXbKl/4SVFp4NgIUDmJVDVNzW6eL0rdGPksN2eO8y7m60HCc7gi3cMAFCBytLXomPenmdjsOSu+orclIvr4VJlbUpg78DP0zD6DE+RibqYaWqcjchgiTVNQJ6qXADk7C7KYtpVXgWuxfARcFR2GPEDderUSxdannIvqAW1EThSXwqd+4LnJrNsJTiNH8V8xWL28w/NxJ+J0YeZrWUOA3VTHk1clF6RLgESe64FXzaRsx5Qbvw8mIzOT8ccYvbLdpYKpHi7GjhDb+6Isnhve7UQDIF3wP1GppGrCoBISlSduisVQ5/YclgSExR5EObKYq+CJMV11z+4REo0OxtVs8Eim8FKSKeSmoGgeBh/AJ2JsbXSqWieQVQXR1hoAW3aUrf4oEbC4TR+wyA6u/5UUlXXLFWMw+1rXCup3zKA1ZMsOJdJtkZZMqsSDJpgzFheqKIC9v6cpB+JqT+OPOAa24aUjuh/R2W94m2z7WYV7UukJpCdFO/GVxPNLVCqhFT4+s5Vy6D90dA2cpQXmOmmaOPbXfvcN0Pya31owow/mj/+X67w5ycDrH27yrF5tmJClM9roqcRVzM3pHKfaHTovOQGnyqOA3JML8m8Gs03gbAqfgEkAVr6wkMJOAVDAjQT1QfEQmab0=
+  - secure: Q/EPi48q70XcwKzviFd/GwCRW1GbSD8Rg8lNov1x2cltsd30PhmmogR9qZ2vAwtmOtulnlxBcgCNE4MokU+2iRhZaO85pnW6Sjzl3YJXXRpRvmNrmr9cIIjW0BPkUbFP28TyLa6r3ka0KVS7U1rqP5hgh89YI/GyWzMqMAS5x7w06fSxXHLVV4hEP5wjutGqxXbZiMd8+S85rWJZm2FwmEsbcGL3yJHMaSzxrwp7TGxqSTVwfGzWxv8JxmypE8xemNeoWxrBXmUSiDBYYf9Z7WdR0jsKXE/f/1MEXoA4DJVECs4kEAE2GzWQxcnvEkY7C/Y7i+EDNDEk6p5fTHy3oZE+sUlbnj1WHZQUXruG08ysM51mgYME2/oujPomHBV82lUdo1GoQ5htXlRvUpTeFThIcyb5fg5NHVPRtRYmMkZZz5lWifKEY1yk/rfa6HV/6FajVGgZB2WsoZEftGVTtEOAEo5aKVfZLVXu/2x1txqCaHWQmLRArulkPLNpoyhsoLDMyekQeBlXDJ+b6dl+FBwLVxUoggy0qMXFGqIlfUe0H1kQYqa7jKijBe9oMU51d+bzE5bpzzUn3BqRTu9fExAULWxdoFjmiM8bLg1oymsQuh5qjyZxIlooZFMSomM2tL5MPFjCPGUJRrjkotO5SDRCB3sgLiq2XQrPyisM6VQ=
+  - secure: A4s6wuBq5UbAtso3OQa5BweTFnxcVxAnOk9Sl8nTzW1E+8aP1PbkmfVTd8JQBXo3bUYkbCrcijAJFTp1GpAxm+KutfnNtseUnkKN0eD7+kl1uoizYK4Z/BHsfi1u3HheZG78gL25Qb5axnuDZfV1ha3+MhXql0oYNugGGTd7+NB3gt+B0IrLdt43E+x7j/lMbGMMjmpfQVL22w8vg8jKrNxycejKyGiiwJNfOxrH3klzOKL/LGcG9GAv8cwmltvQfYcPxOZg0OOiY5JKxE7SASWuUnKoLiXnkpYWkONYE+avs488ObbI9SqhMBNvuGjOomhxDJkGLtKDTgsp7xyq70VaEkbFVUg0mlYpULOTW2spzjt9yUyS8hkO8BckVUg4GDGF1faDJMKilhHOdXZwjbLpZukMzYLlIN5IdqomgqZGjNvmHr2CclAj2CVMrpP8c5ox1pGpRmtrmBmuB67n9cJ8+1r8Rmw8YHD6JmbrzvPAxyhN4EKoj/yYJocp9JxDJ5HLpKfLD1VNq55Z3wRpHHBZZ3R0sRqcvCZEzbeD7Ezuh9kI//ctVu7JJn1eZVP1JxgYAuD2cMXJoQoXDjXH6T+ma3AD0+EeYiooL9MBS8aUopxIoRJw24aQbXAdlCa0j+ci0/VFmm2X/LFjdKEK14fKy4pP7yfUq7X7Ap9I6RQ=
+before_install:
+- sudo cat /proc/meminfo
+- ruby -v
+- gem install travis -v 1.8.9 --no-document
+- export BUILD_NAME=scc-pedigree-service-$TRAVIS_BRANCH-$(date -u "+%Y%m%d%H%M%S")-$TRAVIS_BUILD_NUMBER
+- chmod +x mvnw
+jobs:
+  include:
+  - stage: build and publish to Docker Hub
+    env: 
+    - GCP_ENV=re7
+    script:
+    - travis_wait 15 ./mvnw package -Pnative -Dnative-image.docker-build=true -Dquarkus.profile=docker-profile
+    - sh scripts/travis/tag_build.sh
+    - sh scripts/travis/build_services.sh
+    - sh scripts/travis/deploy_to_docker_hub.sh
+stages:
+- name: build and publish to Docker Hub
+  if: branch = bare-metal
