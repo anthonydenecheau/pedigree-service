@@ -4,7 +4,6 @@ cache:
   - "$HOME/.m2"
 dist: trusty
 jdk: openjdk8
-#- oraclejdk8
 sudo: required
 services:
 - docker
@@ -33,7 +32,7 @@ jobs:
 #    - GCP_ENV=re7
     script:
     - travis_wait 15 ./mvnw package -Pnative -Dnative-image.docker-build=true -Dquarkus.profile=local
-#    - sh scripts/travis/tag_build.sh
+    - sh scripts/travis/tag_build.sh
     - sh scripts/travis/build_services.sh
     - sh scripts/travis/deploy_to_docker_hub.sh
 stages:

@@ -1,5 +1,5 @@
 echo "Tagging build with $BUILD_NAME"
-export TARGET_URL="https://api.github.com/repos/anthonydenecheau/pedigree-service/releases?access_token=$GITHUB_TOKEN"
+export TARGET_URL="https://api.github.com/repos/anthonydenecheau/pedigree-service/releases"
 
 body="{
   \"tag_name\": \"$BUILD_NAME\",
@@ -11,7 +11,7 @@ body="{
 }"
 
 curl -k -X POST \
-  -H "Content-Type: application/json" \
+  -H "Authorization: token $GITHUB_TOKEN"
   -d "$body" \
   $TARGET_URL
 
