@@ -35,4 +35,4 @@ jobs:
     - sh scripts/travis/deploy_to_docker_hub.sh
 stages:
 - name: build and publish to Docker Hub
-  if: branch = bare-metal
+  if: branch = featBareMetal
