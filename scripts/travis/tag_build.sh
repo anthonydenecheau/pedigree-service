@@ -10,8 +10,4 @@ body="{
   \"prerelease\": true
 }"
 
-curl -k -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: token $GITHUB_TOKEN" \
-  -d "$body" \
-  $TARGET_URL
+curl -k -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "$body" $TARGET_URL
