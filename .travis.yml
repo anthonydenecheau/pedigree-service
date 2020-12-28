@@ -35,7 +35,7 @@ jobs:
     - travis_wait 15 ./mvnw package -Pnative -Dnative-image.docker-build=true -Dquarkus.profile=local
 #    - sh scripts/travis/tag_build.sh
     - sh scripts/travis/build_services.sh
-#   - sh scripts/travis/deploy_to_docker_hub.sh
+    - sh scripts/travis/deploy_to_docker_hub.sh
 stages:
 - name: build and publish to Docker Hub
   if: branch = bare-metal
