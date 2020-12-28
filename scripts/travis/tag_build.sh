@@ -15,5 +15,3 @@ curl -k -X POST \
   -H "Authorization: token $GITHUB_TOKEN" \
   -d "$body" \
   $TARGET_URL
-
-  
