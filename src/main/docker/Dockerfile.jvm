@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/keycloak-quarkus-jvm .
+# docker build -f src/main/docker/Dockerfile.jvm -t anthonydenecheau/pedigree-service .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/keycloak-quarkus-jvm
+# docker run -i --rm -p 8085:8085 anthonydenecheau/pedigree-service
 #
 ###
 FROM fabric8/java-alpine-openjdk8-jre

@@ -11,5 +11,5 @@
 #sleep 10
 
 ## Start the server
-echo "Start the server within PROFILE: " $PROFILE
+echo "Start the server within PROFILE: " $PROFILE " PORT: " $PORT
 ./application -Dquarkus-profile=$PROFILE -Dquarkus.http.host=0.0.0.0 -Dquarkus.http.port=$PORT -Djavax.net.ssl.trustStore=/work/cacerts
