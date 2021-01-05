@@ -28,7 +28,7 @@ jobs:
   include:
   - stage: build and publish to Docker Hub
     script:
-    - travis_wait 15 ./mvnw package -Pnative -Dnative-image.docker-build=true -Dquarkus.profile=local
+    - travis_wait 15 ./mvnw package -Pnative
     - sh scripts/travis/tag_build.sh
     - sh scripts/travis/build_services.sh
     - sh scripts/travis/deploy_to_docker_hub.sh
