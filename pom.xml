@@ -7,12 +7,19 @@
 	<artifactId>pedigree-service</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<properties>
+		<!-- 	
 		<quarkus-plugin.version>1.10.5.Final</quarkus-plugin.version>
 		<quarkus.platform.version>1.10.5.Final</quarkus.platform.version>
 		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+		-->
+		<quarkus-plugin.version>1.5.1.Final</quarkus-plugin.version>
+		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+		<quarkus.platform.version>1.5.1.Final</quarkus.platform.version>
+		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+				
 		<surefire-plugin.version>2.22.1</surefire-plugin.version>
 		<testcontainers.version>1.12.5</testcontainers.version>
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
@@ -37,14 +44,19 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
+		<!--dependency>
 		    <groupId>io.quarkus</groupId>
 		    <artifactId>quarkus-keycloak-authorization</artifactId>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-oidc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.quarkus.keycloak</groupId>
+			<artifactId>quarkus-keycloak-adapter</artifactId>
+			<version>1.0.0.Alpha1</version>
+		</dependency>		
 		<!-- Hibernate ORM specific dependencies -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -55,11 +67,11 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-jdbc-postgresql</artifactId>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>com.google.cloud.sql</groupId>
 			<artifactId>postgres-socket-factory</artifactId>
 			<version>1.0.16</version>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
